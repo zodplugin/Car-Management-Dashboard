@@ -46,9 +46,65 @@ app.get('/', (req, res) => {
     const url = req.originalUrl
     const port = process.env.PORT || PORT
     const fullUrl = `${protocol}://${host}:${port}${url}`
-    res.render("index", {
-        fullUrl: fullUrl,
-    })
+    try {
+        if (req.query.category === 'large') {
+            const cars = car.findAll({
+                order: [
+                    ['id', 'ASC']
+                ],
+                where: {
+                    category: {
+                        [Op.eq]: 'large'
+                    }
+                }
+            })
+            res.render("index", {
+                fullUrl: fullUrl,
+                cars: cars
+            })
+        } else if (req.query.category === 'medium') {
+            const cars = car.findAll({
+                order: [
+                    ['id', 'ASC']
+                ],
+                where: {
+                    category: {
+                        [Op.eq]: 'medium'
+                    }
+                }
+            })
+            res.render("index", {
+                fullUrl: fullUrl,
+                cars: cars
+            })
+        } else if (req.query.category === 'small') {
+            const cars = car.findAll({
+                order: [
+                    ['id', 'ASC']
+                ],
+                where: {
+                    category: {
+                        [Op.eq]: 'small'
+                    }
+                }
+            })
+            res.render("index", {
+                fullUrl: fullUrl,
+                cars: cars
+            })
+        } else {
+            const cars = car.findAll()
+            res.render("index", {
+                fullUrl: fullUrl,
+                cars: cars
+            })
+        }
+    } catch {
+        res.status(400).json({
+            status: 'failed',
+            message: err.message
+        })
+    }
 })
 
 app.get('/create', (req, res) => {
