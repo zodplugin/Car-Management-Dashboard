@@ -96,54 +96,56 @@
                                 </h5>
                             </div>
 
-                            <div class="bg__white mt-2" style="">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="row align-items-center">
-                                            <div class="col-lg-4">
-                                                <p>Nama<i style="color: #FA2C5A;">*</i></p>
+                            <form action="/add" method="post" enctype="multipart/form-data">
+                                <div class="bg__white mt-2">
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="row align-items-center">
+                                                <div class="col-lg-4">
+                                                    <p>Nama<i style="color: #FA2C5A;">*</i></p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Avanza">
+                                                </div>
                                             </div>
-                                            <div class="col-lg-8">
-                                                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Avanza">
+                                            <div class="row align-items-center mt-3">
+                                                <div class="col-lg-4">
+                                                    <p>Sewa Per Hari<i style="color: #FA2C5A;">*</i></p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input name="price" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Rp 0,-">
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="row align-items-center mt-3">
-                                            <div class="col-lg-4">
-                                                <p>Sewa Per Hari<i style="color: #FA2C5A;">*</i></p>
+                                            <div class="row align-items-center mt-3">
+                                                <div class="col-lg-4">
+                                                    <p>Ukuran<i style="color: #FA2C5A;">*</i></p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <select name="category" class="form-select" aria-label="Default select example">
+                                                        <option value="1" selected>Small</option>
+                                                        <option value="2">Medium</option>
+                                                        <option value="3">Large</option>
+                                                      </select>
+                                                </div>
                                             </div>
-                                            <div class="col-lg-8">
-                                                <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="Rp 0,-">
-                                            </div>
-                                        </div>
-                                        <div class="row align-items-center mt-3">
-                                            <div class="col-lg-4">
-                                                <p>Ukuran<i style="color: #FA2C5A;">*</i></p>
-                                            </div>
-                                            <div class="col-lg-8">
-                                                <select class="form-select" aria-label="Default select example">
-                                                    <option value="1" selected>Small</option>
-                                                    <option value="2">Medium</option>
-                                                    <option value="3">Large</option>
-                                                  </select>
-                                            </div>
-                                        </div>
-                                        <div class="row mt-3">
-                                            <div class="col-lg-4">
-                                                <p>Foto<i style="color: #FA2C5A;">*</i></p>
-                                            </div>
-                                            <div class="col-lg-8">
-                                                <input class="form-control" type="file" id="formFile">
-                                                <small>File size max. 2MB</small>
+                                            <div class="row mt-3">
+                                                <div class="col-lg-4">
+                                                    <p>Foto<i style="color: #FA2C5A;">*</i></p>
+                                                </div>
+                                                <div class="col-lg-8">
+                                                    <input name="image" class="form-control" type="file" id="formFile">
+                                                    <small>File size max. 2MB</small>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="d-flex button__down">
-                                <button class="btn button__secondary me-3">Cancel</button>
-                                <button class="btn button__primary me-3">Save</button>
-                            </div>
+                                <div class="d-flex button__down">
+                                    <button class="btn button__secondary me-3">Cancel</button>
+                                    <button class="btn button__primary me-3">Save</button>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

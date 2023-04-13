@@ -1,9 +1,9 @@
-const { cars } = require('../models')
+const { car } = require('../models')
 
 
 async function getCars(req, res) {
     try {
-        const cars = await cars.findAll()
+        const cars = await car.findAll()
 
         res.status(200).json({
             status: 'success',
@@ -21,7 +21,7 @@ async function getCars(req, res) {
 
 async function searchCar(req, res) {
     try {
-        const cars = await cars.findAll({
+        const car = await car.findAll({
             where: {
                 name: {
                     [Op.endsWith]: req.query.name
@@ -32,7 +32,7 @@ async function searchCar(req, res) {
         res.status(200).json({
             status: 'success',
             data: {
-                cars
+                car
             }
         })
     } catch (err) {
@@ -47,7 +47,7 @@ async function getCarById(req, res) {
     try {
         // Primary Key = PK
         const id = req.params.id;
-        const data = await cars.findByPk(id);
+        const data = await car.findByPk(id);
 
         res.status(200).json({
             status: 'success',
@@ -66,7 +66,7 @@ async function editCar(req, res) {
         const { name } = req.body;
         const id = req.params.id;
 
-        await cars.update({
+        await car.update({
             name
         }, {
             where: { id }
@@ -87,7 +87,7 @@ async function editCar(req, res) {
 async function deleteCar(req, res) {
     try {
         const id = req.params.id
-        await cars.destroy({
+        await car.destroy({
             where: {
                 id
             }
@@ -105,7 +105,7 @@ async function deleteCar(req, res) {
 async function createCar(req, res) {
     try {
         const { name, price, category, images } = req.body
-        const newCar = await cars.create({
+        const newCar = await car.create({
             name,
             price,
             category,
