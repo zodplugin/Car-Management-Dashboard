@@ -17,7 +17,7 @@
                         </a>
                     </li>
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/">
                             <img src="images/fi_truck.png" alt="">
                             <p>Cars</p>
                         </a>
@@ -98,10 +98,10 @@
                             </div>
 
                             <div class="d-flex button__group">
-                                <button class="btn button__secondary active me-3">All</button>
-                                <button class="btn button__secondary me-3">Small</button>
-                                <button class="btn button__secondary me-3">Medium</button>
-                                <button class="btn button__secondary me-3">Large</button>
+                                <a href="/" class="btn button__secondary <%= (fullUrl === 'http://localhost:3000/' ? 'active' : '') %> me-3">All</a>
+                                <a href="?category=small" class="btn button__secondary <%= (fullUrl === 'http://localhost:3000/?category=small' ? 'active' : '') %> me-3">Small</a>
+                                <a href="?category=medium" class="btn button__secondary <%= (fullUrl === 'http://localhost:3000/?category=medium' ? 'active' : '') %>  me-3">Medium</a>
+                                <a href="?category=large" class="btn button__secondary <%= (fullUrl === 'http://localhost:3000/?category=large' ? 'active' : '') %>  me-3">Large</a>
                             </div>
 
                             <div class="row mt-4">

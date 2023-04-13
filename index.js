@@ -22,7 +22,14 @@ app.use(express.static(path.join(__dirname, "public")))
 app.use(express.static(path.join(__dirname, "controller")))
 
 app.get('/', (req, res) => {
-    res.render("index")
+    const protocol = req.protocol
+    const host = req.hostname
+    const url = req.originalUrl
+    const port = process.env.PORT || PORT
+    const fullUrl = `${protocol}://${host}:${port}${url}`
+    res.render("index", {
+        fullUrl: fullUrl
+    })
 })
 
 app.get('/create', (req, res) => {
@@ -30,7 +37,14 @@ app.get('/create', (req, res) => {
 })
 
 app.get('/edit', (req, res) => {
-    res.render("edit")
+    const protocol = req.protocol
+    const host = req.hostname
+    const url = req.originalUrl
+    const port = process.env.PORT || PORT
+    const fullUrl = `${protocol}://${host}:${port}${url}`
+    res.render("edit", {
+        fullUrl: fullUrl
+    })
 })
 
 app.use(routes)
