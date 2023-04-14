@@ -9,6 +9,10 @@ const multer = require('multer');
 const fs = require('fs');
 const moment = require('moment')
 
+// upload file
+const imagekit = require('./lib/imageKit')
+const upload1 = require('./middleware/uploader')
+
 // http server
 const app = express()
 const PORT = 3000
@@ -119,6 +123,17 @@ app.get('/create', (req, res) => {
 
 app.post('/add', upload, async(req, res) => {
     const { name, price, category } = req.body
+        // const file = req.file
+
+
+    // const split = file.originalname.split('.')
+    // const ext = split[split.length - 1]
+
+    // const img = await imagekit.upload({
+    //     file: file.buffer,
+    //     fileName: `IMG-${Date.now()}.${ext}`
+    // })
+
     await car.create({
         name,
         price,
@@ -136,7 +151,7 @@ app.get('/edit/:id', async(req, res) => {
     })
 
 })
-app.post('/delete/:id', async(req, res) => {
+app.get('/delete/:id', async(req, res) => {
     await car.destroy({
         where: {
             id: req.params.id

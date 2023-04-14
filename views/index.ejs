@@ -122,10 +122,9 @@
                                                 </div>
 
                                                 <div class="d-flex">
-                                                    <button class="btn btn__danger me-2" style="width: 143.5px; " data-bs-toggle="modal" data-bs-target="#exampleModal"><img class="pe-2" src="images/fi_trash-2.png" alt="">Delete</button>
+                                                    <button class="btn btn__danger me-2 btn__modal" style="width: 143.5px; " data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="<%= car.id %>"><img class="pe-2" src="images/fi_trash-2.png" alt="">Delete</button>
                                                     <a class="btn btn__success" href="/edit/<%= car.id %>" style="width: 143.5px;"><img class="pe-2" src="images/fi_edit.png" alt="">Edit</a>
                                                 </div>
-                                                </form>
                                             </div>
                                         </div>
                                     </div>
@@ -136,12 +135,10 @@
                                                 <img src="images/img-BeepBeep.png" alt="">
                                                 <h2>Menghapus Data Mobil</h2>
                                                 <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?</p>
-                                                <form action="/delete/<%= car.id %>" method="post">
-                                                    <div class="button__modal d-flex">
-                                                        <button type="submit" class="btn btn__primary me-2">Ya</button>
-                                                        <button class="btn btn__secondary" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
-                                                    </div>
-                                                </form>
+                                                <div class="button__modal d-flex">
+                                                    <a href="/delete/" class="btn btn__primary btn__delete me-2">Ya</a>
+                                                    <button class="btn btn__secondary" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -155,4 +152,14 @@
         </div>
     </section>
 
+    <script>
+        const modals = document.querySelectorAll('.btn__modal')
+        const trigger = document.querySelector('.btn__delete')
+        modals.forEach((modal) => {
+            modal.addEventListener('click', e => {
+                const id = modal.getAttribute('data-id')
+                trigger.href = `/delete/${id}`
+            })
+        })
+    </script>
     <%- include('./layouts/script') -%>
