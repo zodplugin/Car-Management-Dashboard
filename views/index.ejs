@@ -116,32 +116,36 @@
                                                 <h5 class="card-title h5__hari">Rp
                                                     <%= car.price.toLocaleString() %> / hari</h5>
                                                 <div class="row mt-3">
-                                                    <p class="p__date"><img src="images/fi_clock.png" height="18px" class="pe-1" alt=""> Updated at 4 Apr 2022, 09.00</p>
+                                                    <p class="p__date"><img src="images/fi_clock.png" height="18px" class="pe-1" alt=""> Updated at
+                                                        <%= (car.updateAt ? moment(new Date(car.updateAt)).format('d MMMM YYYY, HH:mm'): moment(new Date(car.createdAt)).format('d MMMM YYYY, HH:mm'))  %>
+                                                    </p>
                                                 </div>
+
+                                                <div class="d-flex">
+                                                    <button class="btn btn__danger me-2" style="width: 143.5px; " data-bs-toggle="modal" data-bs-target="#exampleModal"><img class="pe-2" src="images/fi_trash-2.png" alt="">Delete</button>
+                                                    <a class="btn btn__success" href="/edit/<%= car.id %>" style="width: 143.5px;"><img class="pe-2" src="images/fi_edit.png" alt="">Edit</a>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Modal -->
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content d-flex flex-column justify-content-center align-items-center text-center">
+                                                <img src="images/img-BeepBeep.png" alt="">
+                                                <h2>Menghapus Data Mobil</h2>
+                                                <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?</p>
                                                 <form action="/delete/<%= car.id %>" method="post">
-                                                    <div class="d-flex">
-                                                        <button class="btn btn__danger me-2" style="width: 143.5px; "><img class="pe-2" src="images/fi_trash-2.png" alt="">Delete</button>
-                                                        <a class="btn btn__success" href="/edit/<%= car.id %>" style="width: 143.5px;"><img class="pe-2" src="images/fi_edit.png" alt="">Edit</a>
+                                                    <div class="button__modal d-flex">
+                                                        <button type="submit" class="btn btn__primary me-2">Ya</button>
+                                                        <button class="btn btn__secondary" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                     <% });%>
-                                        <!-- Modal -->
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content d-flex flex-column justify-content-center align-items-center text-center">
-                                                    <img src="images/img-BeepBeep.png" alt="">
-                                                    <h2>Menghapus Data Mobil</h2>
-                                                    <p>Setelah dihapus, data mobil tidak dapat dikembalikan. Yakin ingin menghapus?</p>
-                                                    <div class="button__modal d-flex">
-                                                        <button class="btn btn__primary me-2">Ya</button>
-                                                        <button class="btn btn__secondary" data-bs-dismiss="modal" aria-label="Close">Tidak</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                             </div>
                         </div>
                     </div>

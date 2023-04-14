@@ -3,10 +3,11 @@ const path = require("path");
 const { car } = require('./models')
 const bodyParser = require('body-parser');
 const routes = require('./routes');
-const { default: axios } = require('axios');
+const axios = require('axios');
 const { Op } = require('sequelize');
 const multer = require('multer');
-const { unlinkSync } = require('fs');
+const fs = require('fs');
+const moment = require('moment')
 
 // http server
 const app = express()
@@ -61,7 +62,8 @@ app.get('/', async(req, res) => {
             })
             res.render("index", {
                 fullUrl: fullUrl,
-                data: cars
+                data: cars,
+                moment
             })
         } else if (req.query.category === 'medium') {
             const cars = await car.findAll({
@@ -76,7 +78,8 @@ app.get('/', async(req, res) => {
             })
             res.render("index", {
                 fullUrl: fullUrl,
-                data: cars
+                data: cars,
+                moment
             })
         } else if (req.query.category === 'small') {
             const cars = await car.findAll({
@@ -91,13 +94,15 @@ app.get('/', async(req, res) => {
             })
             res.render("index", {
                 fullUrl: fullUrl,
-                data: cars
+                data: cars,
+                moment
             })
         } else {
             const cars = await car.findAll()
             res.render("index", {
                 fullUrl: fullUrl,
-                data: cars
+                data: cars,
+                moment
             })
         }
     } catch {
@@ -125,24 +130,67 @@ app.post('/add', upload, async(req, res) => {
 })
 
 app.get('/edit/:id', async(req, res) => {
-    const carDetail = await axios.get(`http://localhost:3000/api/car/${req.params.id}`)
+    const carDetail = await axios.get(`http://localhost:3000/api/cars/${req.params.id}`)
     res.render("edit", {
         car: carDetail
     })
-})
 
-app.post('/update/:id', upload, async(req, res) => {
-    const carFind = car.findAll({
+})
+app.post('/delete/:id', async(req, res) => {
+    await car.destroy({
         where: {
             id: req.params.id
         }
     })
 
-    if (req.file.filename && req.body.image) {
-        unlinkSync(`/public/images/${carFind.image}`)
+    res.redirect('/')
+})
+
+app.post('/update/:id', upload, async(req, res) => {
+    const { name, price, category, image } = req.body
+    console.log(name, price, category, image)
+    const findCar = car.findAll({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if (image !== findCar.image) {
+
+        fs.unlink("./images/" + findCar.image, (err) => {
+            if (err) {
+                throw err
+            }
+        })
+        await car.update({
+            name: name,
+            price: price,
+            category: category,
+            image: req.file.filename
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+
+        res.redirect('/')
+
     } else {
 
+        console.log("Wahh sama")
+        await car.update({
+            name: name,
+            price: price,
+            category: category,
+        }, {
+            where: {
+                id: req.params.id
+            }
+        })
+        res.redirect('/')
+
     }
+
 })
 
 app.use(routes)
