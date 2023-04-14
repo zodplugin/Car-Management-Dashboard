@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const routes = require('./routes');
 const { default: axios } = require('axios');
 const { Op } = require('sequelize');
-const multer = require('multer')
+const multer = require('multer');
+const { unlinkSync } = require('fs');
 
 // http server
 const app = express()
@@ -40,7 +41,7 @@ let upload = multer({
 }).single('image')
 
 
-app.get('/', (req, res) => {
+app.get('/', async(req, res) => {
     const protocol = req.protocol
     const host = req.hostname
     const url = req.originalUrl
@@ -48,7 +49,7 @@ app.get('/', (req, res) => {
     const fullUrl = `${protocol}://${host}:${port}${url}`
     try {
         if (req.query.category === 'large') {
-            const cars = car.findAll({
+            const cars = await car.findAll({
                 order: [
                     ['id', 'ASC']
                 ],
@@ -60,10 +61,10 @@ app.get('/', (req, res) => {
             })
             res.render("index", {
                 fullUrl: fullUrl,
-                cars: cars
+                data: cars
             })
         } else if (req.query.category === 'medium') {
-            const cars = car.findAll({
+            const cars = await car.findAll({
                 order: [
                     ['id', 'ASC']
                 ],
@@ -75,10 +76,10 @@ app.get('/', (req, res) => {
             })
             res.render("index", {
                 fullUrl: fullUrl,
-                cars: cars
+                data: cars
             })
         } else if (req.query.category === 'small') {
-            const cars = car.findAll({
+            const cars = await car.findAll({
                 order: [
                     ['id', 'ASC']
                 ],
@@ -90,13 +91,13 @@ app.get('/', (req, res) => {
             })
             res.render("index", {
                 fullUrl: fullUrl,
-                cars: cars
+                data: cars
             })
         } else {
-            const cars = car.findAll()
+            const cars = await car.findAll()
             res.render("index", {
                 fullUrl: fullUrl,
-                cars: cars
+                data: cars
             })
         }
     } catch {
@@ -123,15 +124,25 @@ app.post('/add', upload, async(req, res) => {
 
 })
 
-app.get('/edit', (req, res) => {
-    const protocol = req.protocol
-    const host = req.hostname
-    const url = req.originalUrl
-    const port = process.env.PORT || PORT
-    const fullUrl = `${protocol}://${host}:${port}${url}`
+app.get('/edit/:id', async(req, res) => {
+    const carDetail = await axios.get(`http://localhost:3000/api/car/${req.params.id}`)
     res.render("edit", {
-        fullUrl: fullUrl
+        car: carDetail
     })
+})
+
+app.post('/update/:id', upload, async(req, res) => {
+    const carFind = car.findAll({
+        where: {
+            id: req.params.id
+        }
+    })
+
+    if (req.file.filename && req.body.image) {
+        unlinkSync(`/public/images/${carFind.image}`)
+    } else {
+
+    }
 })
 
 app.use(routes)
