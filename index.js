@@ -170,41 +170,42 @@ app.post('/update/:id', upload, async(req, res) => {
         }
     })
 
-    if (image !== findCar.image) {
+    // if (image !== findCar.image) {
 
-        fs.unlink("./images/" + findCar.image, (err) => {
-            if (err) {
-                throw err
-            }
-        })
-        await car.update({
-            name: name,
-            price: price,
-            category: category,
-            image: req.file.filename
-        }, {
-            where: {
-                id: req.params.id
-            }
-        })
+    //     fs.unlink("./images/" + findCar.image, (err) => {
+    //         if (err) {
+    //             throw err
+    //         }
+    //     })
+    //     await car.update({
+    //         name: name,
+    //         price: price,
+    //         category: category,
+    //         image: req.file.filename
+    //     }, {
+    //         where: {
+    //             id: req.params.id
+    //         }
+    //     })
 
-        res.redirect('/')
+    //     res.redirect('/')
 
-    } else {
+    // } else {
 
-        console.log("Wahh sama")
-        await car.update({
-            name: name,
-            price: price,
-            category: category,
-        }, {
-            where: {
-                id: req.params.id
-            }
-        })
-        res.redirect('/')
+    console.log("Wahh sama")
+    await car.update({
+        name: name,
+        price: price,
+        category: category,
+        image: req.file.filename
+    }, {
+        where: {
+            id: req.params.id
+        }
+    })
+    res.redirect('/')
 
-    }
+    // }
 
 })
 
