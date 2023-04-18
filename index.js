@@ -8,6 +8,8 @@ const { Op } = require('sequelize');
 const multer = require('multer');
 const fs = require('fs');
 const moment = require('moment')
+const flash = require('connect-flash')
+const session = require('express-session')
 
 // upload file
 const imagekit = require('./lib/imageKit')
@@ -20,9 +22,18 @@ const PORT = 3000
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use(session({
+    secret:'geeksforgeeks',
+    saveUninitialized: true,
+    resave: true
+}));
+app.use(flash())
+
 // set view engine
 app.set("views", __dirname + "/views")
 app.set("view engine", 'ejs')
+
+
 
 //public + controller
 app.use(express.static(path.join(__dirname, "public")))
@@ -67,8 +78,10 @@ app.get('/', async(req, res) => {
             res.render("index", {
                 fullUrl: fullUrl,
                 data: cars,
-                moment
+                moment,
+                message: req.flash('message')
             })
+            
         } else if (req.query.category === 'medium') {
             const cars = await car.findAll({
                 order: [
@@ -83,7 +96,8 @@ app.get('/', async(req, res) => {
             res.render("index", {
                 fullUrl: fullUrl,
                 data: cars,
-                moment
+                moment,
+                message: req.flash('message')
             })
         } else if (req.query.category === 'small') {
             const cars = await car.findAll({
@@ -99,17 +113,19 @@ app.get('/', async(req, res) => {
             res.render("index", {
                 fullUrl: fullUrl,
                 data: cars,
-                moment
+                moment,
+                message: req.flash('message')
             })
         } else {
             const cars = await car.findAll()
             res.render("index", {
                 fullUrl: fullUrl,
                 data: cars,
-                moment
+                moment,
+                message: req.flash('message')
             })
         }
-    } catch {
+    } catch (err) {
         res.status(400).json({
             status: 'failed',
             message: err.message
@@ -140,6 +156,7 @@ app.post('/add', upload, async(req, res) => {
         category,
         image: req.file.filename
     })
+    req.flash('message', 'success');
     res.redirect('/')
 
 })
@@ -157,7 +174,7 @@ app.get('/delete/:id', async(req, res) => {
             id: req.params.id
         }
     })
-
+    req.flash('message', 'delete');
     res.redirect('/')
 })
 
